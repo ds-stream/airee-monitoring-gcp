@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: statsd-exporter
+  namespace: airflow
+spec:
+  ports:
+  - name: tcp9102
+    protocol: TCP
+    port: 9102
+    targetPort: 9102
+  - name: tcp9125
+    protocol: TCP
+    port: 9125
+    targetPort: 9125
+  - name: udp9125
+    protocol: UDP
+    port: 9125
+    targetPort: 9125
+  selector:
+    app: statsd-exporter

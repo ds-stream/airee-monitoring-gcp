@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./namespace.yaml
+  - ./prometheus/config_map.yaml
+  - ./prometheus/statsd_deploy.yaml
+  - ./prometheus/service_statsd.yaml
+  - ./prometheus/exportservice.yaml
+  - ./prometheus/prometheus-sa.yaml
+  - ./prometheus/prometheus-deploy.yaml
+  - ./grafana/config_map.yaml
+  - ./grafana/grafana.yaml

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: airflow
+  name: statsd-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statsd-exporter
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: statsd-exporter
+    spec: 
+      containers:
+      - name: statsd-exporter    
+        image: prom/statsd-exporter
+        imagePullPolicy: Always
+        command: ["/bin/statsd_exporter"]
+        args: ["--statsd.mapping-config","/mapping/statsd_mapping.yml"]
+        resources:
+          requests:
+            memory: "0.5Gi"
+            cpu: "0.5"
+          limits:
+            memory: "1Gi"
+            cpu: "0.5"
+        volumeMounts:
+        - mountPath: /mapping
+          name: statsd-mapping
+      volumes:
+        - name: statsd-mapping
+          configMap:
+            name: statsd-mapping
+            items:
+            - key: mappings
+              path: statsd_mapping.yml
